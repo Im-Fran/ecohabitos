@@ -37,8 +37,8 @@ export default function Home() {
             </div>
             <div className="mx-auto lg:ml-auto flex justify-center">
               <Image
-                src="/placeholder.svg?height=400&width=400"
-                alt="Jóvenes practicando ecohábitos"
+                src="/images/portada-principal.jpg"
+                alt="Persona plantando un árbol"
                 width={400}
                 height={400}
                 className="rounded-lg object-cover"
