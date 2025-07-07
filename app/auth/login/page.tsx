@@ -68,6 +68,13 @@ export default function AuthPage() {
 
     try {
       const supabase = createClient()
+
+      // Get the current origin for the redirect URL
+      const origin =
+        typeof window !== "undefined"
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -75,14 +82,16 @@ export default function AuthPage() {
           data: {
             full_name: name,
           },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/auth/callback`,
+          emailRedirectTo: `${origin}/auth/confirm`,
         },
       })
 
       if (error) {
         setError(error.message)
       } else {
-        setMessage("¡Registro exitoso! Revisa tu correo para confirmar tu cuenta.")
+        setMessage(
+          "¡Registro exitoso! Revisa tu correo para confirmar tu cuenta. El enlace te redirigirá de vuelta a esta aplicación.",
+        )
       }
     } catch (err) {
       setError("Error de configuración. Por favor, contacta al administrador.")
