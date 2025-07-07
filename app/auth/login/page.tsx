@@ -70,10 +70,7 @@ export default function AuthPage() {
       const supabase = createClient()
 
       // Get the current origin for the redirect URL
-      const origin =
-        typeof window !== "undefined"
-          ? window.location.origin
-          : process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+      const origin = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
 
       const { error } = await supabase.auth.signUp({
         email,
@@ -83,6 +80,7 @@ export default function AuthPage() {
             full_name: name,
           },
           emailRedirectTo: `${origin}/auth/confirm`,
+          redirectTo: 
         },
       })
 
