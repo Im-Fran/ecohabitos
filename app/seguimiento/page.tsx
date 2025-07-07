@@ -1,3 +1,4 @@
+import { requireAuth } from "@/lib/auth"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,7 +8,9 @@ import { Progress } from "@/components/ui/progress"
 import { ArrowRight, CheckCircle, BarChart3, Calendar, Recycle, Zap, Leaf } from "lucide-react"
 import { HabitTracker } from "@/components/habit-tracker"
 
-export default function Seguimiento() {
+export default async function Seguimiento() {
+  const user = await requireAuth()
+
   const plasticHabits = [
     { id: "p1", label: "Usar botella reutilizable", completed: true },
     { id: "p2", label: "Llevar bolsas de tela para compras", completed: true },
@@ -46,9 +49,10 @@ export default function Seguimiento() {
           <CheckCircle className="h-6 w-6 text-green-600" />
         </div>
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Seguimiento de Ecohábitos</h1>
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Mi Progreso en Ecohábitos</h1>
           <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-            Lleva un registro de tus hábitos sostenibles y visualiza tu progreso a lo largo del tiempo.
+            Hola {user.user_metadata?.full_name || user.email?.split("@")[0]}, aquí puedes llevar un registro de tus
+            hábitos sostenibles y visualizar tu progreso personal.
           </p>
         </div>
       </div>

@@ -4,12 +4,12 @@ import Link from "next/link"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Leaf, Menu, BarChart3 } from "lucide-react"
+import { Leaf, Menu } from "lucide-react"
+import { AuthButton } from "@/components/auth-button"
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
-  // Actualizar las rutas eliminando "Seguimiento" ya que "Mi Progreso" cumple esa función
   const routes = [
     { href: "/", label: "Inicio" },
     { href: "/ecohabitos", label: "Ecohábitos" },
@@ -39,12 +39,9 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-4">
-          <Link href="/seguimiento">
-            <Button variant="outline" className="hidden md:flex gap-2">
-              <BarChart3 className="h-4 w-4" />
-              Mi Progreso
-            </Button>
-          </Link>
+          <div className="hidden md:block">
+            <AuthButton />
+          </div>
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="outline" size="icon">
@@ -64,9 +61,9 @@ export function Header() {
                     {route.label}
                   </Link>
                 ))}
-                <Link href="/seguimiento" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full mt-4 bg-green-600 hover:bg-green-700">Mi Progreso</Button>
-                </Link>
+                <div className="mt-4">
+                  <AuthButton />
+                </div>
               </div>
             </SheetContent>
           </Sheet>

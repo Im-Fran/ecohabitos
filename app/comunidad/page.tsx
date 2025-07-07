@@ -10,7 +10,7 @@ export default function Comunidad() {
   const testimonials = [
     {
       name: "Laura M.",
-      avatar: "/images/community-user-laura.jpg",
+      avatar: "/placeholder.svg?height=80&width=80",
       habit: "Compostaje casero",
       testimonial:
         "Empecé a compostar hace 3 meses y ya he reducido mi basura en un 40%. ¡Es más fácil de lo que pensaba!",
@@ -19,7 +19,7 @@ export default function Comunidad() {
     },
     {
       name: "Carlos P.",
-      avatar: "/images/community-user-2.jpg",
+      avatar: "/placeholder.svg?height=80&width=80",
       habit: "Cero plásticos",
       testimonial: "Cambié todas mis botellas por alternativas reutilizables. El reto semanal me motivó a dar el paso.",
       date: "1 semana atrás",
@@ -27,7 +27,7 @@ export default function Comunidad() {
     },
     {
       name: "Daniela S.",
-      avatar: "/images/community-user-3.jpg",
+      avatar: "/placeholder.svg?height=80&width=80",
       habit: "Ahorro energético",
       testimonial:
         "Siguiendo los consejos de la web, reduje mi consumo eléctrico en un 25%. Mi familia también se ha sumado.",
@@ -78,7 +78,7 @@ export default function Comunidad() {
     },
     {
       name: "Laura M.",
-      avatar: "/images/community-user-laura.jpg",
+      avatar: "/images/community-user-1.jpg",
       points: 875,
       badge: "Innovador Sostenible",
     },

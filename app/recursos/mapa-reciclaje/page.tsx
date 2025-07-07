@@ -87,7 +87,6 @@ export default function MapaReciclaje() {
     aceite: { label: "Aceite Usado", color: "bg-orange-100 text-orange-800", icon: "🛢️" },
     lubricantes: { label: "Lubricantes", color: "bg-amber-100 text-amber-800", icon: "⚙️" },
   }
-  type MaterialType = keyof typeof materialTypes;
 
   const filteredPoints =
     selectedFilter === "all" ? recyclingPoints : recyclingPoints.filter((point) => point.types.includes(selectedFilter))
@@ -167,10 +166,8 @@ export default function MapaReciclaje() {
 
                   {/* Marcador de ubicación actual */}
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="relative flex items-center justify-center">
-                      <div className="absolute w-6 h-6 bg-blue-600 rounded-full opacity-50 animate-ping"></div>
-                      <div className="relative w-4 h-4 bg-blue-600 rounded-full border-2 border-white shadow-lg z-10"></div>
-                    </div>
+                    <div className="w-4 h-4 bg-blue-600 rounded-full border-2 border-white shadow-lg"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-blue-600 rounded-full opacity-30 animate-ping"></div>
                   </div>
                 </div>
 
@@ -261,8 +258,8 @@ export default function MapaReciclaje() {
                 <CardContent className="space-y-3">
                   <div className="flex flex-wrap gap-1">
                     {point.types.map((type) => (
-                      <Badge key={type} className={`text-xs ${materialTypes[type as MaterialType]?.color}`} variant="secondary">
-                        {materialTypes[type as MaterialType]?.icon} {materialTypes[type as MaterialType]?.label}
+                      <Badge key={type} className={`text-xs ${materialTypes[type]?.color}`} variant="secondary">
+                        {materialTypes[type]?.icon} {materialTypes[type]?.label}
                       </Badge>
                     ))}
                   </div>
