@@ -80,7 +80,6 @@ export default function AuthPage() {
             full_name: name,
           },
           emailRedirectTo: `${origin}/auth/confirm`,
-          redirectTo: 
         },
       })
 
