@@ -1,3 +1,4 @@
 export default function Loading() {
-  return null
+  // Placeholder for loading component logic
+  return <div>Loading...</div>
 }

@@ -1,19 +1,18 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState, Suspense } from "react"
+import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2, CheckCircle, AlertTriangle } from "lucide-react"
 import Link from "next/link"
 
-export default function ConfirmPage() {
+function ConfirmContent() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   useEffect(() => {
     const handleEmailConfirmation = async () => {
@@ -122,5 +121,26 @@ export default function ConfirmPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function ConfirmPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 to-white py-12 px-4">
+          <Card className="w-full max-w-md">
+            <CardHeader className="text-center">
+              <div className="inline-block rounded-full bg-green-100 p-3 mb-4">
+                <Loader2 className="h-8 w-8 text-green-600 animate-spin" />
+              </div>
+              <CardTitle>Cargando...</CardTitle>
+            </CardHeader>
+          </Card>
+        </div>
+      }
+    >
+      <ConfirmContent />
+    </Suspense>
   )
 }
