@@ -6,6 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { habitsService, type Habit, type DailyHabitTracking } from "@/lib/habits"
 import { createClient } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
+import confetti from "canvas-confetti"
 
 interface HabitTrackerDBProps {
   user?: User | null
@@ -120,6 +121,17 @@ export function HabitTrackerDB({ user }: HabitTrackerDBProps) {
     setLoading(false)
   }
 
+  const triggerMiniConfetti = () => {
+    // Confetti más pequeño para el tracker diario
+    confetti({
+      particleCount: 30,
+      spread: 45,
+      origin: { y: 0.7 },
+      colors: ["#22c55e", "#16a34a", "#dcfce7"],
+      scalar: 0.8,
+    })
+  }
+
   const toggleHabit = async (habitId: string, day: number) => {
     const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`
     const key = `${habitId}-${date}`
@@ -130,6 +142,11 @@ export function HabitTrackerDB({ user }: HabitTrackerDBProps) {
     const newTracking = new Map(tracking)
     newTracking.set(key, newValue)
     setTracking(newTracking)
+
+    // Si se está completando un hábito (no descompletando), mostrar confetti
+    if (newValue) {
+      triggerMiniConfetti()
+    }
 
     // Si hay usuario y Supabase está disponible, guardar en BD
     if (user && supabaseAvailable) {

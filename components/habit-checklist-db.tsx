@@ -8,6 +8,7 @@ import { habitsService, type Habit, type UserHabitProgress } from "@/lib/habits"
 import { createClient } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
 import { Recycle, Zap, Leaf } from "lucide-react"
+import confetti from "canvas-confetti"
 
 interface HabitChecklistDBProps {
   user?: User | null
@@ -199,6 +200,37 @@ export function HabitChecklistDB({ user }: HabitChecklistDBProps) {
     setLoading(false)
   }
 
+  const triggerConfetti = () => {
+    // Confetti desde la parte superior
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ["#22c55e", "#16a34a", "#15803d", "#dcfce7", "#bbf7d0"],
+    })
+
+    // Confetti adicional con delay para más efecto
+    setTimeout(() => {
+      confetti({
+        particleCount: 50,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ["#22c55e", "#16a34a", "#15803d"],
+      })
+    }, 200)
+
+    setTimeout(() => {
+      confetti({
+        particleCount: 50,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ["#22c55e", "#16a34a", "#15803d"],
+      })
+    }, 400)
+  }
+
   const toggleHabit = async (habitId: string) => {
     const currentValue = progress.get(habitId) || false
     const newValue = !currentValue
@@ -207,6 +239,11 @@ export function HabitChecklistDB({ user }: HabitChecklistDBProps) {
     const newProgress = new Map(progress)
     newProgress.set(habitId, newValue)
     setProgress(newProgress)
+
+    // Si se está completando un hábito (no descompletando), mostrar confetti
+    if (newValue) {
+      triggerConfetti()
+    }
 
     // Si hay usuario y Supabase está disponible, guardar en BD
     if (user && supabaseAvailable) {
