@@ -59,12 +59,23 @@ export function HabitChecklistDB({ user }: HabitChecklistDBProps) {
       setLoading(true)
       setError(null)
 
-      // Cargar hábitos por categoría
+      // Cargar hábitos por categoría de forma individual
       const habitsData: { [key: string]: Habit[] } = {}
+
       for (const category of categories) {
-        const categoryHabits = await habitsService.getHabitsByCategory(category.key)
-        habitsData[category.key] = categoryHabits
+        try {
+          const categoryHabits = await habitsService.getHabitsByCategory(category.key)
+          habitsData[category.key] = categoryHabits
+          console.log(
+            `Loaded ${categoryHabits.length} habits for category ${category.key}:`,
+            categoryHabits.map((h) => h.name),
+          )
+        } catch (err) {
+          console.error(`Error loading habits for category ${category.key}:`, err)
+          habitsData[category.key] = []
+        }
       }
+
       setHabitsByCategory(habitsData)
 
       // Cargar progreso del usuario

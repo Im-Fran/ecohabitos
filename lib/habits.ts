@@ -52,9 +52,9 @@ export class HabitsService {
     const { data, error } = await this.supabase
       .from("habits")
       .select(`
-        *,
-        category:habit_categories(*)
-      `)
+      *,
+      category:habit_categories!inner(*)
+    `)
       .eq("habit_categories.name", categoryName)
 
     if (error) {
