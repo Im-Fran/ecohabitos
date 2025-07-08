@@ -37,7 +37,7 @@ export default function Home() {
             </div>
             <div className="mx-auto lg:ml-auto flex justify-center">
               <Image
-                src="/placeholder.svg?height=400&width=400"
+                src="/images/young-people-eco-habits.jpg" // Cambiado de /placeholder.svg
                 alt="Jóvenes practicando ecohábitos"
                 width={400}
                 height={400}
@@ -454,7 +454,7 @@ export default function Home() {
                 <Button className="bg-white text-green-600 hover:bg-green-50">Comenzar mi viaje eco</Button>
               </Link>
               <Link href="/comunidad">
-                <Button variant="outline" className="text-white border-white hover:bg-green-700">
+                <Button variant="outline" className="text-white border-white hover:bg-green-700 bg-transparent">
                   Unirme a la comunidad
                 </Button>
               </Link>
