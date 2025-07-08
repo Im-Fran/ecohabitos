@@ -10,7 +10,7 @@ export default function Comunidad() {
   const testimonials = [
     {
       name: "Laura M.",
-      avatar: "/placeholder.svg?height=80&width=80",
+      avatar: "/images/community-user-laura.jpg",
       habit: "Compostaje casero",
       testimonial:
         "Empecé a compostar hace 3 meses y ya he reducido mi basura en un 40%. ¡Es más fácil de lo que pensaba!",
@@ -78,7 +78,7 @@ export default function Comunidad() {
     },
     {
       name: "Laura M.",
-      avatar: "/images/community-user-1.jpg",
+      avatar: "/images/community-user-laura.jpg",
       points: 875,
       badge: "Innovador Sostenible",
     },
