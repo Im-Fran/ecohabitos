@@ -21,21 +21,33 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
-  const [configError, setConfigError] = useState(false)
+  const [supabaseAvailable, setSupabaseAvailable] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    // Check if Supabase is properly configured
+    // Check if Supabase environment variables are available
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn("Supabase environment variables not configured")
+      setSupabaseAvailable(false)
+      return
+    }
+
     try {
       createClient()
+      setSupabaseAvailable(true)
     } catch (err) {
       console.error("Supabase configuration error:", err)
-      setConfigError(true)
+      setSupabaseAvailable(false)
     }
   }, [])
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!supabaseAvailable) return
+
     setLoading(true)
     setError("")
     setMessage("")
@@ -62,6 +74,8 @@ export default function AuthPage() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!supabaseAvailable) return
+
     setLoading(true)
     setError("")
     setMessage("")
@@ -96,7 +110,7 @@ export default function AuthPage() {
     setLoading(false)
   }
 
-  if (configError) {
+  if (!supabaseAvailable) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-red-50 to-white py-12 px-4">
         <Card className="w-full max-w-md">
@@ -104,17 +118,26 @@ export default function AuthPage() {
             <div className="inline-block rounded-full bg-red-100 p-3 mb-4">
               <AlertTriangle className="h-8 w-8 text-red-600" />
             </div>
-            <CardTitle className="text-red-600">Error de Configuración</CardTitle>
+            <CardTitle className="text-red-600">Autenticación no disponible</CardTitle>
             <CardDescription>
-              La aplicación no está configurada correctamente. Por favor, contacta al administrador.
+              Las funciones de autenticación no están configuradas en este momento. Puedes explorar el contenido público
+              de la aplicación.
             </CardDescription>
           </CardHeader>
-          <CardContent className="text-center">
-            <Link href="/">
-              <Button variant="outline" className="w-full bg-transparent">
-                Volver al inicio
-              </Button>
-            </Link>
+          <CardContent className="text-center space-y-4">
+            <p className="text-sm text-gray-600">
+              Todas las funciones principales de Ecohábitos están disponibles sin necesidad de crear una cuenta.
+            </p>
+            <div className="flex flex-col gap-2">
+              <Link href="/ecohabitos">
+                <Button className="w-full bg-green-600 hover:bg-green-700">Explorar Ecohábitos</Button>
+              </Link>
+              <Link href="/">
+                <Button variant="outline" className="w-full bg-transparent">
+                  Volver al inicio
+                </Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
       </div>

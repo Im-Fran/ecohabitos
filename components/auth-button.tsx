@@ -18,12 +18,24 @@ import type { User as SupabaseUser } from "@supabase/supabase-js"
 export function AuthButton() {
   const [user, setUser] = useState<SupabaseUser | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [supabaseAvailable, setSupabaseAvailable] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
+    // Check if Supabase environment variables are available
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn("Supabase environment variables not configured - authentication disabled")
+      setSupabaseAvailable(false)
+      setLoading(false)
+      return
+    }
+
     try {
       const supabase = createClient()
+      setSupabaseAvailable(true)
 
       const getUser = async () => {
         try {
@@ -31,10 +43,8 @@ export function AuthButton() {
             data: { user },
           } = await supabase.auth.getUser()
           setUser(user)
-          setError(null)
         } catch (err) {
           console.error("Error getting user:", err)
-          setError("Error loading user data")
         } finally {
           setLoading(false)
         }
@@ -52,12 +62,14 @@ export function AuthButton() {
       return () => subscription.unsubscribe()
     } catch (err) {
       console.error("Error creating Supabase client:", err)
-      setError("Configuration error")
+      setSupabaseAvailable(false)
       setLoading(false)
     }
   }, [])
 
   const handleSignOut = async () => {
+    if (!supabaseAvailable) return
+
     try {
       const supabase = createClient()
       await supabase.auth.signOut()
@@ -72,13 +84,12 @@ export function AuthButton() {
     return <div className="w-24 h-10 bg-gray-200 animate-pulse rounded"></div>
   }
 
-  if (error) {
+  // If Supabase is not available, show a disabled login button
+  if (!supabaseAvailable) {
     return (
-      <Link href="/auth/login">
-        <Button variant="outline" className="bg-transparent">
-          Iniciar Sesión
-        </Button>
-      </Link>
+      <Button variant="outline" className="bg-transparent" disabled>
+        Autenticación no disponible
+      </Button>
     )
   }
 
